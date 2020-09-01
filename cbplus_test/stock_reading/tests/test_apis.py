@@ -42,7 +42,11 @@ class TestStockReadingAPI(APITestCase):
             reference_id='1234567890123',
             expiry_date=self.expiry_date
         )
-        stock_reading = StockReading.objects.create(
+        StockReading.objects.create(
+            reference_id='1234567890124',
+            expiry_date=self.expiry_date
+        )
+        StockReading.objects.create(
             reference_id='1234567890123',
             expiry_date=self.expiry_date
         )
@@ -51,8 +55,8 @@ class TestStockReadingAPI(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(isinstance(response.json(), list))
-        self.assertEqual(len(response.json()), 1)
-        self.assertEqual(response.json()[0]['id'], stock_reading.id)
+        self.assertEqual(len(response.json()), 2)
+        self.assertEqual([item['reference_id'] for item in response.json()], ['1234567890123', '1234567890124'])
 
     def test_list_stock_readings_with_last_filter_at_false(self):
         stock_reading_1 = StockReading.objects.create(

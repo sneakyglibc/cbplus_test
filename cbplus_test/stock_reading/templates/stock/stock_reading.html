@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+    <SCRIPT LANGUAGE="javascript">
+        function http_get_stock_reading(callback, params) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    callback(JSON.parse(xmlHttp.responseText));
+            }
+            xmlHttp.open("GET", 'http://127.0.0.1:8000/api/stock_readings?' + params, true);
+            xmlHttp.send();
+        }
+
+        function http_post_stock_reading(data) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open('POST', 'http://127.0.0.1:8000/api/stock_readings/', true);
+            xmlHttp.setRequestHeader("Content-Type", "application/json");
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                    var json = JSON.parse(xmlHttp.responseText);
+                    console.log(json);
+                }
+                console.log(xmlHttp.responseText);
+            };
+            var data = JSON.stringify(
+                {"reference_id": document.getElementById('reference_id').value,
+                "expiry_date": document.getElementById('expiry_date').value}
+            );
+            xmlHttp.send(data);
+        }
+
+        function create_old_stock_reading_list(data) {
+            var table = document.getElementById('stock_readings_list');
+            var tableBody = document.createElement('tbody');
+            var header = document.createElement('tr');
+
+            table.innerHTML = "";
+            ['id', 'creation_date', 'modification_date', 'reference_id', 'expiry_date'].forEach(function(value) {
+              var cell = document.createElement('td');
+              cell.appendChild(document.createTextNode(value));
+              header.appendChild(cell);
+            });
+            tableBody.appendChild(header);
+
+            data.forEach(function(rowData) {
+                var row = document.createElement('tr');
+
+                for (var key in rowData) {
+                  var cell = document.createElement('td');
+                  cell.appendChild(document.createTextNode(rowData[key]));
+                  row.appendChild(cell);
+                }
+                tableBody.appendChild(row);
+             });
+            table.appendChild(tableBody);
+        }
+
+        function create_stock_reading_list(items) {
+            var table = document.getElementById('stock_readings_list');
+            var tableBody = document.createElement('tbody');
+            var header = document.createElement('tr');
+
+            table.innerHTML = "";
+            ['id', 'creation_date', 'modification_date', 'reference_id', 'expiry_date'].forEach(function(value) {
+              var cell = document.createElement('td');
+              cell.appendChild(document.createTextNode(value));
+              header.appendChild(cell);
+            });
+            tableBody.appendChild(header);
+
+            items.forEach(function(rowData) {
+                var row = document.createElement('tr');
+
+                for (var key in rowData) {
+                  var cell = document.createElement('td');
+                  cell.appendChild(document.createTextNode(rowData[key]));
+                  row.appendChild(cell);
+                }
+                row.addEventListener('click', function() {
+                    http_get_stock_reading(create_old_stock_reading_list,
+                                           'reference_id=' + rowData['reference_id'] + '&last=false')
+                });
+                tableBody.appendChild(row);
+             });
+
+            table.appendChild(tableBody);
+        }
+    </SCRIPT>
+</HEAD>
+<BODY>
+<h2>Create Stock Reading</h2>
+<FORM NAME="form1">
+    <label>Reference Id</label><BR>
+    <INPUT id="reference_id" TYPE="text" NAME="reference_id" VALUE=""><BR>
+    <label>Expiry date</label><BR>
+    <INPUT id="expiry_date" TYPE="date" NAME="expiry_date" VALUE=""><BR>
+    <INPUT TYPE="button" NAME="bouton" VALUE="Create" onClick="http_post_stock_reading(form1)">
+</FORM>
+<h2>Stock Readings List</h2>
+<table id="stock_readings_list"></table>
+<script>http_get_stock_reading(create_stock_reading_list, 'last=true');</script>
+</BODY>
+</HTML>
+</body>
