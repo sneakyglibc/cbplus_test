@@ -1,6 +1,6 @@
-<HTML>
-<HEAD>
-    <SCRIPT LANGUAGE="javascript">
+<html>
+<head>
+    <script LANGUAGE="javascript">
         function http_get_stock_reading(callback, params) {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
@@ -59,8 +59,10 @@
             var table = document.getElementById('stock_readings_list');
             var tableBody = document.createElement('tbody');
             var header = document.createElement('tr');
+            var refresh_button = document.getElementById('refresh');
 
             table.innerHTML = "";
+            refresh_button.style.visibility = "hidden";
             ['id', 'creation_date', 'modification_date', 'reference_id', 'expiry_date'].forEach(function(value) {
               var cell = document.createElement('td');
               cell.appendChild(document.createTextNode(value));
@@ -78,27 +80,35 @@
                 }
                 row.addEventListener('click', function() {
                     http_get_stock_reading(create_old_stock_reading_list,
-                                           'reference_id=' + rowData['reference_id'] + '&last=false')
+                                           'reference_id=' + rowData['reference_id'] + '&last=false');
+                    var refresh_button = document.getElementById('refresh');
+                    refresh_button.style.visibility = "visible";
                 });
                 tableBody.appendChild(row);
              });
 
             table.appendChild(tableBody);
         }
-    </SCRIPT>
-</HEAD>
-<BODY>
+    </script>
+    <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    </style>
+</head>
+<body>
 <h2>Create Stock Reading</h2>
-<FORM NAME="form1">
+<form NAME="form1">
     <label>Reference Id</label><BR>
-    <INPUT id="reference_id" TYPE="text" NAME="reference_id" VALUE=""><BR>
+    <input id="reference_id" TYPE="text" NAME="reference_id" VALUE=""><BR>
     <label>Expiry date</label><BR>
-    <INPUT id="expiry_date" TYPE="date" NAME="expiry_date" VALUE=""><BR>
-    <INPUT TYPE="button" NAME="bouton" VALUE="Create" onClick="http_post_stock_reading(form1)">
-</FORM>
+    <input id="expiry_date" TYPE="date" NAME="expiry_date" VALUE=""><BR>
+    <input TYPE="button" NAME="bouton" VALUE="Create" onClick="http_post_stock_reading(form1)">
+</form>
 <h2>Stock Readings List</h2>
+<input id="refresh" TYPE="button" NAME="bouton" VALUE="Back to the current stock readings"
+       onClick="http_get_stock_reading(create_stock_reading_list, 'last=true')">
 <table id="stock_readings_list"></table>
 <script>http_get_stock_reading(create_stock_reading_list, 'last=true');</script>
-</BODY>
-</HTML>
 </body>
+</html>
