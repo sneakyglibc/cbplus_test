@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'l!khk(tj#^)=xels#t^0)*lg*cpctn3dicgpc(end+@8up^g$v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'cbplustest.herokuapp.com', '127.0.0.1']
 
