@@ -20,8 +20,9 @@ Install `Git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_.
 Install `Postgresql <https://www.postgresqltutorial.com/postgresql-getting-started/>`_.
 
 In your project directory clone or download the `git project <https://github.com/sneakyglibc/cbplus_test>`_.
-git clone https://github.com/sneakyglibc/cbplus_test.git
 ::
+  git clone https://github.com/sneakyglibc/cbplus_test.git
+
 
 Enter in the directory.
 ::
@@ -55,7 +56,7 @@ Launch the server.
 ::
   python manage.py runserver
 
-You can now access to your `local web site<http://127.0.0.1:8000/index/>`_.
+You can now access to your `local web site <http://127.0.0.1:8000/index/>`_.
 
 
 Explanation of the project
