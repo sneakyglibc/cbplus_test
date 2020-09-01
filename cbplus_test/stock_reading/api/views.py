@@ -9,6 +9,7 @@ from ..models import StockReading
 class ProjectFilter(django_filters.FilterSet):
     reference_id = django_filters.CharFilter(lookup_expr='icontains')
     last = django_filters.BooleanFilter(method='filter_last')
+    cursor = django_filters.UUIDFilter(method='filter_cursor')
 
     def filter_last(self, queryset, name, value):
         if value is True:
@@ -18,6 +19,12 @@ class ProjectFilter(django_filters.FilterSet):
             queryset = queryset.difference(queryset.distinct('reference_id')).order_by('reference_id', '-creation_date')
             return queryset
         return queryset
+
+    def filter_cursor(self, queryset, name, value):
+        stock_reading = StockReading.objects.filter(uuid=value)
+        if not stock_reading:
+            return []
+        return queryset.filter(creation_date__gt=stock_reading.first().creation_date)
 
     class Meta:
         model = StockReading

@@ -29,11 +29,10 @@ class TestStockReadingAPI(APITestCase):
         self.assertDictEqual(
             response.json()[0],
             {
-                'id': self.stock_reading.id,
                 'reference_id': self.stock_reading.reference_id,
                 'expiry_date': str(self.stock_reading.expiry_date),
                 'creation_date': str(self.stock_reading.creation_date),
-                'last_update_date': str(self.stock_reading.last_update_date)
+                'uuid': str(self.stock_reading.uuid),
             }
         )
 
@@ -74,9 +73,29 @@ class TestStockReadingAPI(APITestCase):
         self.assertTrue(isinstance(response.json(), list))
         self.assertEqual(len(response.json()), 2)
         self.assertEqual(
-            [response.json()[0]['id'], response.json()[1]['id']],
-            [stock_reading_1.id, self.stock_reading.id]
+            [response.json()[0]['creation_date'], response.json()[1]['creation_date']],
+            [str(stock_reading_1.creation_date), str(self.stock_reading.creation_date)]
         )
+
+    def test_list_stock_readings_with_cursor_filter(self):
+        StockReading.objects.create(
+            reference_id='1234567890123',
+            expiry_date=self.expiry_date
+        )
+        StockReading.objects.create(
+            reference_id='1234567890124',
+            expiry_date=self.expiry_date
+        )
+        StockReading.objects.create(
+            reference_id='1234567890123',
+            expiry_date=self.expiry_date
+        )
+        url = reverse_lazy('stock_readings-list')
+        response = self.client.get(url, data={'cursor': self.stock_reading.uuid}, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(isinstance(response.json(), list))
+        self.assertEqual(len(response.json()), 3)
 
     def test_list_stock_readings_with_reference_id_filter(self):
         stock_reading = StockReading.objects.create(

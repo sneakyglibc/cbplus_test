@@ -34,7 +34,7 @@
             var header = document.createElement('tr');
 
             table.innerHTML = "";
-            ['id', 'creation_date', 'modification_date', 'reference_id', 'expiry_date'].forEach(function(value) {
+            ['creation_date', 'reference_id', 'expiry_date', 'uuid'].forEach(function(value) {
               var cell = document.createElement('td');
               cell.appendChild(document.createTextNode(value));
               header.appendChild(cell);
@@ -62,7 +62,7 @@
 
             table.innerHTML = "";
             refresh_button.style.visibility = "hidden";
-            ['id', 'creation_date', 'modification_date', 'reference_id', 'expiry_date'].forEach(function(value) {
+            ['creation_date', 'reference_id', 'expiry_date', 'uuid'].forEach(function(value) {
               var cell = document.createElement('td');
               cell.appendChild(document.createTextNode(value));
               header.appendChild(cell);
@@ -108,6 +108,7 @@
 <h2>Stock Readings List</h2>
 <input id="refresh" TYPE="button" NAME="bouton" VALUE="Back to the current stock readings"
        onClick="http_get_stock_reading(create_stock_reading_list, 'last=true')">
+<br>
 <table id="stock_readings_list" style="width:75%"></table>
 <script>http_get_stock_reading(create_stock_reading_list, 'last=true');</script>
 </body>

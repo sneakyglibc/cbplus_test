@@ -11,4 +11,5 @@ router.register(r'stock_readings', api_views.StockReadingViewSet, basename='stoc
 urlpatterns = [
     url('api/', include(router.urls)),
     url('stock_reading/', views.stock_reading, name='stock_reading'),
+    url('index/', views.index, name='index'),
 ]

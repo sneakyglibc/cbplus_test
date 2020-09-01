@@ -28,7 +28,7 @@ class TestStockReading(TestCase):
         self.assertEqual(stock_reading.reference_id, self.reference_id)
         self.assertEqual(stock_reading.expiry_date, self.date)
         self.assertTrue(stock_reading.creation_date)
-        self.assertTrue(stock_reading.last_update_date)
+        self.assertTrue(stock_reading.uuid)
 
     def test_create_stock_reading_with_not_enough_charac_for_reference_id(self):
         with self.assertRaises(DataError) as e:
