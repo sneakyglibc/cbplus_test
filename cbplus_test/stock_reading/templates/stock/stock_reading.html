@@ -16,10 +16,14 @@
             xmlHttp.open('POST', "{{ url }}" + '/api/stock_readings/', true);
             xmlHttp.setRequestHeader("Content-Type", "application/json");
             xmlHttp.onreadystatechange = function () {
-                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                    var json = JSON.parse(xmlHttp.responseText);
+                if (xmlHttp.readyState === 4) {
+                    if (xmlHttp.status === 201) {
+                        http_get_stock_reading(create_stock_reading_list, 'last=true');
+                    }
+                    else {
+                        alert(xmlHttp.responseText);
+                    }
                 }
-                console.log(xmlHttp.responseText);
             };
             var data = JSON.stringify(
                 {"reference_id": document.getElementById('reference_id').value,
