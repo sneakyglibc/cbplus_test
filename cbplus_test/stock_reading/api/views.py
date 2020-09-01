@@ -1,6 +1,6 @@
 import django_filters.rest_framework
 
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 
 from .serializers import StockReadingSerializer
 from ..models import StockReading
@@ -24,13 +24,8 @@ class ProjectFilter(django_filters.FilterSet):
         fields = ('reference_id', 'last',)
 
 
-class StockReadingViewSet(viewsets.ModelViewSet):
+class StockReadingViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = StockReadingSerializer
     queryset = StockReading.objects.all().order_by('reference_id', '-creation_date')
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_class = ProjectFilter
-
-    perms_map = {
-        'GET': {},
-        'POST': {},
-    }
