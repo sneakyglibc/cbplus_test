@@ -24,31 +24,26 @@ git clone https://github.com/sneakyglibc/cbplus_test.git
 ::
 
 Enter in the directory.
-
-.. code::
+::
   cd cbplus_test
 
 Install and create a virtualenv.
-
-.. code::
+::
     pip install virtualenv
     virtualenv .env --python=python3.8
 
 Install all the pip packages.
-
-.. code::
+::
   source .env/bin/activate
   pip install -r cbplus_test/requirements.txt
 
 Create the database with cbplus_test password for both.
-
-.. code::
+::
   createuser -s -W cbplus_test
   createdb -W --owner=cbplus_test cbplus_test
 
 Create your admin account.
-
-.. code::
+::
   python manage.py createsuperuser
 
 Update the database.
@@ -57,8 +52,7 @@ Update the database.
   python manage.py migrate
 
 Launch the server.
-
-.. code::
+::
   python manage.py runserver
 
 You can now access to your `local web site<http://127.0.0.1:8000/index/>`_.
