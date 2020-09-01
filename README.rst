@@ -52,7 +52,7 @@ Create your admin account.
   python manage.py createsuperuser
 
 Update the database.
-.. code::
+:
   cd cbplus_test
   python manage.py migrate
 
