@@ -7,18 +7,17 @@
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
                     callback(JSON.parse(xmlHttp.responseText));
             }
-            xmlHttp.open("GET", 'http://127.0.0.1:8000/api/stock_readings?' + params, true);
+            xmlHttp.open("GET", "{{ url }}" + '/api/stock_readings?' + params, true);
             xmlHttp.send();
         }
 
         function http_post_stock_reading(data) {
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open('POST', 'http://127.0.0.1:8000/api/stock_readings/', true);
+            xmlHttp.open('POST', "{{ url }}" + '/api/stock_readings/', true);
             xmlHttp.setRequestHeader("Content-Type", "application/json");
             xmlHttp.onreadystatechange = function () {
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                     var json = JSON.parse(xmlHttp.responseText);
-                    console.log(json);
                 }
                 console.log(xmlHttp.responseText);
             };
@@ -93,22 +92,23 @@
     <style>
     table, th, td {
       border: 1px solid black;
+      border-collapse: collapse;
     }
     </style>
 </head>
 <body>
 <h2>Create Stock Reading</h2>
 <form NAME="form1">
-    <label>Reference Id</label><BR>
-    <input id="reference_id" TYPE="text" NAME="reference_id" VALUE=""><BR>
-    <label>Expiry date</label><BR>
-    <input id="expiry_date" TYPE="date" NAME="expiry_date" VALUE=""><BR>
+    <label>Reference Id</label><br>
+    <input id="reference_id" TYPE="text" NAME="reference_id" VALUE=""><br>
+    <label>Expiry date</label><br>
+    <input id="expiry_date" TYPE="date" NAME="expiry_date" VALUE=""><br><br>
     <input TYPE="button" NAME="bouton" VALUE="Create" onClick="http_post_stock_reading(form1)">
 </form>
 <h2>Stock Readings List</h2>
 <input id="refresh" TYPE="button" NAME="bouton" VALUE="Back to the current stock readings"
        onClick="http_get_stock_reading(create_stock_reading_list, 'last=true')">
-<table id="stock_readings_list"></table>
+<table id="stock_readings_list" style="width:75%"></table>
 <script>http_get_stock_reading(create_stock_reading_list, 'last=true');</script>
 </body>
 </html>
