@@ -91,11 +91,10 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
+            'NAME': 'cbplus_test',
             'USER': 'cbplus_test',
             'HOST': '127.0.0.1',
             'PASSWORD': 'cbplus_test',
-            'USER_PASSWORD': 'cbplus_test',
             'PORT': 5432,
         }
     }
