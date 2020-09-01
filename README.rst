@@ -44,11 +44,11 @@ Create the database with cbplus_test password for both.
 
 Create your admin account.
 ::
+  cd cbplus_test
   python manage.py createsuperuser
 
 Update the database.
 ::
-  cd cbplus_test
   python manage.py migrate
 
 Launch the server.
