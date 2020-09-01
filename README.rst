@@ -20,9 +20,8 @@ Install `Git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_.
 Install `Postgresql <https://www.postgresqltutorial.com/postgresql-getting-started/>`_.
 
 In your project directory clone or download the `git project <https://github.com/sneakyglibc/cbplus_test>`_.
-
-.. code::
-  git clone https://github.com/sneakyglibc/cbplus_test.git
+git clone https://github.com/sneakyglibc/cbplus_test.git
+::
 
 Enter in the directory.
 
